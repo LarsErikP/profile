@@ -63,13 +63,6 @@ class profile::mysql::cluster {
     table      => '*.*',
     user       => 'root@%',
   }->
-  mysql_grant { 'haproxy_check@%/mysql.user':
-    ensure     => 'present',
-    options    => ['GRANT'],
-    privileges => ['SELECT'],
-    table      => 'mysql.user',
-    user       => 'haproxy_check@%',
-  }
   
   keepalived::vrrp::script { 'check_mysql':
     script => '/usr/bin/killall -0 mysqld',
