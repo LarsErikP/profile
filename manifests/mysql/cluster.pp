@@ -15,13 +15,12 @@ class profile::mysql::cluster {
   $management_ip = getvar("::ipaddress_${management_if}")
 
   require profile::services::keepalived
-  include ::profile::sensu::plugin::mysql
 
   apt::source { 'galera_mariadb':
-    location   => 'http://mirror.aarnet.edu.au/pub/MariaDB/repo/10.0/ubuntu',
+    location   => 'http://mariadb.cu.be/repo/10.1/ubuntu',
     repos      => 'main',
     release    => $::lsbdistcodename,
-    key        => '177F4010FE56CA3336300305F1656F24C74CD1D8',
+    key        => 'F1656F24C74CD1D8',
     key_server => 'keyserver.ubuntu.com',
     notify     => Exec['apt_update'],
   }
@@ -30,8 +29,8 @@ class profile::mysql::cluster {
     galera_servers      => $servers,
     galera_master       => $master,
     galera_package_name => 'galera-3',
-    mysql_package_name  => 'mariadb-galera-server-10.0',
-    client_package_name => 'mariadb-client-10.0',
+    mysql_package_name  => 'mariadb-10.1',
+    client_package_name => 'mariadb-client-10.1',
     status_password     => $statuspassword,
     vendor_type         => 'mariadb',
     root_password       => $rootpassword,
@@ -39,10 +38,11 @@ class profile::mysql::cluster {
     configure_firewall  => false,
     configure_repo      => false,
     override_options    => {
-      'mysqld' => {
+      'mysqld'          => {
         'port'            => '3306',
         'bind-address'    => $mysql_ip,
         'max_connections' => '1000',
+        'wsrep_on'        => 'ON',
       }
     },
     require             => Apt::Source['galera_mariadb'],
