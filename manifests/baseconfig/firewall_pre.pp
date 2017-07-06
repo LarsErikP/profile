@@ -1,0 +1,23 @@
+# FAIERVÅLL
+
+class baseconfig::firewall_pre {
+  firewall { '000 accept all icmp':
+    proto  => 'icmp',
+    action => 'accept',
+  } ->
+  firewall { '001 accept all to loopback':
+    proto   => 'all',
+    iniface => 'lo',
+    action  => 'accept',
+  } ->
+  firewall { '002 accept related established':
+    proto  => 'all',
+    state  => ['RELATED', 'ESTABLISHED'],
+    action => 'accept',
+  } ->
+  firewall { '003 accept ssh':
+    proto  => 'tcp',
+    dport  => 22,
+    action => 'accept',
+  }
+}
