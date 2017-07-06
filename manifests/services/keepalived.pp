@@ -21,4 +21,10 @@ class profile::services::keepalived {
   sysctl::value { 'net.ipv4.ip_nonlocal_bind':
     value => '1',
   }
+
+  firewall { '020 accept vrrp':
+    proto       => 'vrrp',
+    destination => '224.0.0.0/8',
+    action      => 'accept',
+  }
 }
