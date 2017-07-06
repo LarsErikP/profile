@@ -1,6 +1,6 @@
 # FAIERVÅLL
 
-class baseconfig::firewall_pre {
+class profile::baseconfig::firewall_pre {
   firewall { '000 accept all icmp':
     proto  => 'icmp',
     action => 'accept',
