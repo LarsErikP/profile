@@ -81,4 +81,19 @@ class profile::mysql::cluster {
     ],
     track_script      => 'check_mysql',
   }
+
+  # firewall
+  firewall { '010 accept mysql':
+    proto       => 'tcp',
+    dport       => 3306,
+    source      => '10.100.0.0/24',
+    destination => $mysql_ip,
+    action      => 'accept',
+  }
+  firewall { '011 accept wsrep':
+    proto  => 'tcp',
+    dport  => 4567,
+    source => '10.100.0.0/24',
+    action => 'accept',
+  }
 }
