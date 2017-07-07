@@ -21,5 +21,15 @@ class profile::baseconfig::firewall_pre {
     proto  => 'tcp',
     dport  => 22,
     action => 'accept',
+  } ->
+  firewall { '004 range test':
+    proto  => 'udp',
+    dport  => '5000-6000',
+    action => 'accept',
+  } ->
+  firewall { '005 port list test':
+    proto  => 'tcp',
+    dport  => [ '1234', '3000', '4500-4503', '8080'],
+    action => 'accept',
   }
 }
