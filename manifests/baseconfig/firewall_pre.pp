@@ -21,5 +21,10 @@ class profile::baseconfig::firewall_pre {
     proto  => 'tcp',
     dport  => 22,
     action => 'accept',
+  } ->
+  firewall { '004 accept telnet - lol':
+    proto  => 'tcp',
+    dport  => 23,
+    action => 'accept',
   }
 }
