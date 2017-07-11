@@ -3,7 +3,10 @@ class profile::baseconfig {
   include ::profile::baseconfig::puppet
   include ::profile::baseconfig::networking
   include ::profile::baseconfig::packages
-
+  include ::profile::baseconfig::unattendedupgrades.pp
+  include ::profile::baseconfig::ntp
+  include ::profile::baseconfig::ssh
+  include ::profile::baseconfig::users
   #  Firewall {
   #  before  => Class['profile::baseconfig::firewall_post'],
   #  require => Class['profile::baseconfig::firewall_pre'],
