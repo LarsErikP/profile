@@ -7,7 +7,14 @@ class profile::munin::node {
 
   if ($manageFirewall) {
     require ::firewall
+
+    firewall { '020 accept munin-node':
+      proto  => 'tcp',
+      dport  => 4949,
+      action => 'accept',
+    }
   }
+
 
   include ::profile::munin::plugins
   include ::profile::munin::plugin::puppet
@@ -19,9 +26,4 @@ class profile::munin::node {
     service_ensure => 'running',
   }
 
-  firewall { '020 accept munin-node':
-    proto  => 'tcp',
-    dport  => 4949,
-    action => 'accept',
-  }
 }
