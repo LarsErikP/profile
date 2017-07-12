@@ -15,6 +15,12 @@ class profile::munin::master {
     ensure  => link,
   }
 
+  firewall { '010 accept http':
+    proto  => 'tcp',
+    dport  => 80,
+    action => 'accept',
+  }
+
   apache::vhost { "${munin_url} http":
     servername    => $munin_url,
     serveraliases => [$munin_url],
