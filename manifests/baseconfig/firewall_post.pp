@@ -5,7 +5,7 @@ class profile::baseconfig::firewall_post {
 
   firewall { '999 drop all':
     proto  => 'all',
-    action => 'allow',
+    action => 'accept',
     before => undef,
   }
 }
