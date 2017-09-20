@@ -61,7 +61,7 @@ class profile::sensu::uchiwa {
     script => '/usr/bin/killall -0 apache2',
   }
 
-  keepalived::vrrp::script { 'mgmt-uchiwa':
+  keepalived::vrrp::instance { 'mgmt-uchiwa':
     interface         => $management_if,
     state             => 'MASTER',
     virtual_router_id => $vrrp_id,
