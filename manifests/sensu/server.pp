@@ -34,7 +34,7 @@ class profile::sensu::server {
     server                      => true,
     api                         => true,
     use_embedded_ruby           => true,
-    api_bind                    => '127.0.0.1',
+    api_bind                    => $sensu_ip,
     sensu_plugin_provider       => 'sensu_gem',
     subscriptions               => $subscriptions,
     purge                       => true,

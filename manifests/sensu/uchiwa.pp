@@ -15,6 +15,7 @@ class profile::sensu::uchiwa {
   $management_if = hiera('profile::interfaces::management')
 
   $uchiwa_ip = hiera('profile::uchiwa::vrrp::admin::ip')
+  $sensu_ip  = hiera('profile::sensu::vrrp::admin::ip')
 
   class { '::uchiwa':
     user                => 'sensu',
@@ -22,6 +23,7 @@ class profile::sensu::uchiwa {
     install_repo        => false,
     sensu_api_endpoints => [{
       name    => $api_name,
+      host    => $sensu_ip,
       user    => '',
       pass    => '',
       timeout => 10,
