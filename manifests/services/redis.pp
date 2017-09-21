@@ -3,7 +3,7 @@
 class profile::services::redis {
   $nodetype = hiera('profile::redis::nodetype')
   $nic = hiera('profile::interfaces::management')
-  $ip = $facts['networking'][$nic]['ip']
+  $ip = $::networking['interfaces'][$nic]['ip']
   $masterauth = hiera('profile::redis::masterauth')
   $redismaster = hiera('profile::redis::master')
   $slaveof = undef
