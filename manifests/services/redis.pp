@@ -6,7 +6,6 @@ class profile::services::redis {
   $ip = $::networking['interfaces'][$nic]['ip']
   $masterauth = hiera('profile::redis::masterauth')
   $redismaster = hiera('profile::redis::master')
-  $slaveof = undef
 
   if ( $nodetype == 'slave' ) {
     $slaveof = "${redismaster} 6379"
