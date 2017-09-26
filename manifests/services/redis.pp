@@ -18,14 +18,12 @@ class profile::services::redis {
   }
 
   class { '::redis':
-    appendonly      => true,
-    cluster_enabled => true,
-    config_owner    => 'redis',
-    config_group    => 'redis',
-    manage_repo     => true,
-    bind            => $ip,
-    masterauth      => $masterauth,
-    slaveof         => $slaveof,
+    config_owner => 'redis',
+    config_group => 'redis',
+    manage_repo  => true,
+    bind         => $ip,
+    masterauth   => $masterauth,
+    slaveof      => $slaveof,
   } ->
 
   class { '::redis::sentinel':
