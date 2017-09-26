@@ -9,7 +9,13 @@ class profile::services::redis {
   $slaveof = undef
 
   if ( $nodetype == 'slave' ) {
-      $slaveof = "${redismaster} 6379"
+    $slaveof = "${redismaster} 6379"
+  }
+  elsif ( $nodetype == 'master') {
+    $slaveof = undef
+  }
+  else {
+    fail('Wrong redis node type. Only master or slave are valid')
   }
 
   class { '::redis':
