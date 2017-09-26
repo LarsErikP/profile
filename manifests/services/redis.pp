@@ -18,12 +18,14 @@ class profile::services::redis {
   }
 
   class { '::redis':
-    config_owner => 'redis',
-    config_group => 'redis',
-    manage_repo  => true,
-    bind         => $ip,
-    masterauth   => $masterauth,
-    slaveof      => $slaveof,
+    config_owner        => 'redis',
+    config_group        => 'redis',
+    manage_repo         => true,
+    bind                => $ip,
+    masterauth          => $masterauth,
+    min_slaves_to_write => 1,
+    requirepass         => true,
+    slaveof             => $slaveof,
   } ->
 
   class { '::redis::sentinel':
