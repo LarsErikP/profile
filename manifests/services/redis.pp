@@ -24,7 +24,7 @@ class profile::services::redis {
     bind                => $ip,
     masterauth          => $masterauth,
     min_slaves_to_write => 1,
-    requirepass         => true,
+    requirepass         => $masterauth,
     slaveof             => $slaveof,
   } ->
 
