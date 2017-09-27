@@ -37,7 +37,7 @@ class profile::services::redis {
 
   class { '::redis::sentinel':
     redis_host => $redismaster,
-    auth_pass  => $masterauth,
+    auth_pass  => $redispass,
   }
 
   firewall { '050 accept redis-server':
