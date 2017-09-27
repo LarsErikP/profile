@@ -45,7 +45,7 @@ class profile::services::redis {
     dport  => 6379,
     action => 'accept',
   }
-  firewall { '051 accetp redis-sentinel':
+  firewall { '051 accept redis-sentinel':
     proto  => 'tcp',
     dport  => 26379,
     action => 'accept',
