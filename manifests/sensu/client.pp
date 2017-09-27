@@ -1,10 +1,10 @@
-# Install and configure sensu-server and dashboard
-class profile::sensu::server {
-
+# Install and configure sensu-client
+class profile::sensu::client {
   $rabbithost = hiera('profile::rabbitmq::ip')
   $sensurabbitpass = hiera('profile::sensu::rabbit_password')
+  $mgmt_nic = hiera('profile::interfaces::management')
+  $client_ip = getvar("::ipaddress_${mgmt_nic}")
   $subs_from_client_conf = hiera('sensu::subscriptions','')
-
   $redishost = hiera('profile::redis::ip')
 
   if ( $::is_virtual == 'true' ) {
@@ -24,33 +24,15 @@ class profile::sensu::server {
     rabbitmq_password           => $sensurabbitpass,
     rabbitmq_reconnect_on_error => true,
     redis_host                  => $redishost,
-    server                      => true,
-    api                         => true,
-    use_embedded_ruby           => true,
+    server                      => false,
+    api                         => false,
+    client                      => true,
+    client_address              => $client_ip,
     sensu_plugin_provider       => 'sensu_gem',
+    use_embedded_ruby           => true,
     subscriptions               => $subscriptions,
     purge                       => true,
   }
 
-  sensu::handler { 'default':
-    type     => 'set',
-    handlers => [ 'stdout' ],
-  }
-
-  sensu::handler { 'stdout':
-    type    => 'pipe',
-    command => 'cat',
-  }
-
-  sensu::filter { 'state-change-only':
-    negate     => false,
-    attributes => {
-      occurrences => "eval: value == 1 || ':::action:::' == 'resolve'",
-    },
-  }
-
-  include ::profile::sensu::checks
   include ::profile::sensu::plugins
-  include ::profile::sensu::plugin::http
-  include ::profile::sensu::uchiwa
 }
