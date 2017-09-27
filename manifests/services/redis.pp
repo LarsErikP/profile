@@ -28,7 +28,7 @@ class profile::services::redis {
     config_owner        => 'redis',
     config_group        => 'redis',
     manage_repo         => true,
-    bind                => "127.0.0.1 ${ip}",
+    bind                => "${ip} 127.0.0.1",
     masterauth          => $masterauth,
     min_slaves_to_write => 1,
     requirepass         => $requirepass,
