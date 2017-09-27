@@ -41,7 +41,7 @@ class profile::services::redis {
     redis_host       => $redismaster,
     auth_pass        => $redispass,
     log_file         => '/var/log/redis/redis-sentinel.log',
-    sentinel_bind    => $ip,
+    sentinel_bind    => "${ip} 127.0.0.1",
   }
 
   firewall { '050 accept redis-server':
