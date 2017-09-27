@@ -7,7 +7,6 @@ class profile::services::redis {
   $nodetype = hiera('profile::redis::nodetype')
   $nic = hiera('profile::interfaces::management')
   $ip = $::networking['interfaces'][$nic]['ip']
-  $redispass = hiera('profile::redis::masterauth')
   $redismaster = hiera('profile::redis::master')
 
   if ( $nodetype == 'slave' ) {
@@ -29,9 +28,7 @@ class profile::services::redis {
     config_group        => 'redis',
     manage_repo         => true,
     bind                => "${ip} 127.0.0.1",
-    masterauth          => $masterauth,
     min_slaves_to_write => 1,
-    requirepass         => $requirepass,
     slaveof             => $slaveof,
   } ->
 
@@ -39,7 +36,6 @@ class profile::services::redis {
     down_after       => 5000,
     failover_timeout => 60000,
     redis_host       => $redismaster,
-    auth_pass        => $redispass,
     log_file         => '/var/log/redis/redis-sentinel.log',
     sentinel_bind    => "${ip} 127.0.0.1",
   }
