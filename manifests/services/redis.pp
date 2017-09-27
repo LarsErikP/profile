@@ -40,7 +40,8 @@ class profile::services::redis {
     failover_timeout => 60000,
     redis_host       => $redismaster,
     auth_pass        => $redispass,
-    log_file         => '/var/log/redis/redis-sentinel.log'
+    log_file         => '/var/log/redis/redis-sentinel.log',
+    sentinel_bind    => $ip,
   }
 
   firewall { '050 accept redis-server':
