@@ -9,15 +9,12 @@ class profile::sensu::uchiwa {
 
   $management_if = hiera('profile::interfaces::management')
 
-  $sensu_ip  = hiera('profile::haproxy::ip')
-
   class { '::uchiwa':
     user                => 'sensu',
     pass                => $password,
     install_repo        => false,
     sensu_api_endpoints => [{
       name    => $api_name,
-      host    => $sensu_ip,
       user    => '',
       pass    => '',
       timeout => 10,
