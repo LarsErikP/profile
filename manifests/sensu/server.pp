@@ -7,7 +7,7 @@ class profile::sensu::server {
 
   $redishost = hiera('profile::redis::ip')
 
-  if ( $::is_virtual == 'true' ) {
+  if ( $::is_virtual ) {
     $subs = [ 'all' ]
   } else {
     $subs = [ 'all', 'physical-servers' ]
