@@ -72,7 +72,7 @@ class profile::services::rabbitmq {
   $installSensu = hiera('profile::sensu::install', true)
   if ($installSensu) {
     include ::profile::services::rabbitmq::sensu
-    #    include ::profile::sensu::plugin::rabbitmq
+    include ::profile::sensu::plugin::rabbitmq
   }
 
 }
