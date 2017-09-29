@@ -30,7 +30,7 @@ class profile::sensu::uchiwa {
     port                => 80,
     docroot             => false,
     manage_docroot      => false,
-    access_log_env_var  => 'forwarded',
+    access_log_format   => 'forwarded',
     proxy_preserve_host => true,
     proxy_pass          => [
       {
