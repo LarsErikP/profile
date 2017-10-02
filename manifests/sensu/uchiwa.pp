@@ -24,6 +24,10 @@ class profile::sensu::uchiwa {
       pass    => '',
       timeout => 10,
     }],
+    auth                => {
+      'publickey'  => $public_key_path,
+      'privatekey' => $private_key_path,
+    },
   }
 
   include ::apache::mod::proxy
