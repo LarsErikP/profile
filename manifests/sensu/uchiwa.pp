@@ -9,6 +9,11 @@ class profile::sensu::uchiwa {
 
   $management_if = hiera('profile::interfaces::management')
 
+  $private_key = hiera('profile::sensu::uchiwa::private_key')
+  $public_key  = hiera('profile::sensu::uchiwa::public_key')
+  $private_key_path = '/etc/sensu/keys/uchiwa.rsa'
+  $public_key_path  = '/etc/sensu/keys/uchiwa.rsa.pub'
+
   class { '::uchiwa':
     user                => 'sensu',
     pass                => $password,
@@ -51,4 +56,28 @@ class profile::sensu::uchiwa {
     ProxyHTMLURLMap http://127.0.0.1:3000/ /',
   }
 
+  file { '/etc/sensu/keys':
+    ensure => directory,
+    owner  => 'uchiwa',
+    group  => 'uchiwa',
+    mode   => '0700',
+  }
+
+  file { $private_key_path:
+    ensure  => file,
+    owner   => 'uchiwa',
+    group   => 'uchiwa',
+    mode    => '0600',
+    content => $private_key,
+    after   => File['/etc/sensu/keys'],
+  }
+
+  file { $public_key_path:
+    ensure  => file,
+    owner   => 'uchiwa',
+    group   => 'uchiwa',
+    mode    => '0644',
+    content => $public_key,
+    after   => File['/etc/sensu/keys'],
+  }
 }
