@@ -2,6 +2,7 @@
 class profile::services::puppetdb {
 
   class { '::puppetdb': }
-  class { '::puppetdb::master::config': }
-
+  class { '::puppetdb::master::config':
+    puppetdb_server => hiera('profile::services::puppetdb::server', $::fqdn),
+  }
 }
