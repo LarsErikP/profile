@@ -69,7 +69,7 @@ class profile::sensu::uchiwa {
     group   => 'uchiwa',
     mode    => '0600',
     content => $private_key,
-    after   => File['/etc/sensu/keys'],
+    require => File['/etc/sensu/keys'],
   }
 
   file { $public_key_path:
@@ -78,6 +78,6 @@ class profile::sensu::uchiwa {
     group   => 'uchiwa',
     mode    => '0644',
     content => $public_key,
-    after   => File['/etc/sensu/keys'],
+    require => File['/etc/sensu/keys'],
   }
 }
