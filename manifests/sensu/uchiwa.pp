@@ -70,6 +70,7 @@ class profile::sensu::uchiwa {
     mode    => '0600',
     content => $private_key,
     require => File['/etc/sensu/keys'],
+    notify  => Service[$uchiwa::service_name],
   }
 
   file { $public_key_path:
@@ -79,5 +80,6 @@ class profile::sensu::uchiwa {
     mode    => '0644',
     content => $public_key,
     require => File['/etc/sensu/keys'],
+    notify  => Service[$uchiwa::service_name],
   }
 }
