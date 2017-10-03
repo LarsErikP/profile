@@ -12,6 +12,7 @@ class profile::services::haproxy::uchiwa {
   }
 
   haproxy::backend { 'bk_uchiwa':
+    mode    => 'http', 
     options => {
       'balance' => 'source',
       'cookie'  => 'SERVERID insert indirect nocache',
