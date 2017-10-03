@@ -2,7 +2,7 @@
 
 class profile::services::haproxy {
   class { '::haproxy':
-    default_options => {
+    defaults_options => {
       'option'  => [
         'httplog',
         'dontlognull',
