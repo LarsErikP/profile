@@ -2,6 +2,7 @@
 
 class profile::services::haproxy {
   class { '::haproxy':
+    merge_options    => true,
     defaults_options => {
       'option'  => [
         'httplog',
