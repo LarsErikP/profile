@@ -8,7 +8,7 @@ class profile::sensu::uchiwa {
   $uchiwa_url = hiera('profile::sensu::uchiwa::fqdn')
 
   $management_if = hiera('profile::interfaces::management')
-  $management_ip = $::facts['networking'][$management_if]['ip']
+  $management_ip = $facts['networking']['interfaces'][$management_if]['ip']
 
   $private_key = hiera('profile::sensu::uchiwa::private_key')
   $public_key  = hiera('profile::sensu::uchiwa::public_key')
