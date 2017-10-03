@@ -6,7 +6,7 @@ class profile::services::redis {
 
   $nodetype = hiera('profile::redis::nodetype')
   $nic = hiera('profile::interfaces::management')
-  $ip = $::networking['interfaces'][$nic]['ip']
+  $ip = $facts['networking']['interfaces'][$nic]['ip']
   $redismaster = hiera('profile::redis::master')
 
   if ( $nodetype == 'slave' ) {
@@ -43,7 +43,7 @@ class profile::services::redis {
   @@haproxy::balancermember { $::fqdn:
     listening_service => 'redis',
     ports             => '6379',
-    ipaddresses       => $management_ip,
+    ipaddresses       => $ip,
     server_names      => $::hostname,
     options           => [
       'check inter 1s',
