@@ -40,6 +40,16 @@ class profile::services::redis {
     sentinel_bind    => "${ip} 127.0.0.1",
   }
 
+  @@haproxy::balancermember { $::fqdn:
+    listening_service => 'redis',
+    ports             => '6379',
+    ipaddresses       => $management_ip,
+    server_names      => $::hostname,
+    options           => [
+      'check inter 1s',
+    ],
+  }
+
   firewall { '050 accept redis-server':
     proto  => 'tcp',
     dport  => 6379,
