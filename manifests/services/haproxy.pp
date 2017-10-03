@@ -19,10 +19,4 @@ class profile::services::haproxy {
       ],
     },
   }
-
-  $installSensu = hiera('profile::sensu::install')
-  if ( $installSensu ) {
-    include ::profile::services::haproxy::uchiwa
-  }
-
 }
