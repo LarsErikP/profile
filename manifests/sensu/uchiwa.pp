@@ -92,7 +92,7 @@ class profile::sensu::uchiwa {
     listening_service => 'uchiwa',
     ports             => '80',
     ipaddresses       => $management_ip,
-    server_names      => $::fqdn,
+    server_names      => $::hostname,
     options           => [
       'check inter 5s',
       'cookie',
