@@ -1,6 +1,8 @@
-# Haproxy config for uchiwa
+# Haproxy config for redis
 
 class profile::services::redis::haproxy {
+
+  require ::profile::services::haproxy
 
   haproxy::listen { 'redis':
     ipaddress => '*',
