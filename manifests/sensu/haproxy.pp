@@ -1,6 +1,8 @@
 # Haproxy config for uchiwa
 
-class profile::services::haproxy::uchiwa {
+class profile::sensu::haproxy {
+
+  require ::profile::services::haproxy
 
   haproxy::listen { 'uchiwa':
     ipaddress   => '*',

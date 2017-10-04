@@ -1,8 +1,6 @@
-# Install and configure haproxy
+# Baseconfig for all haproxy servers
 
 class profile::services::haproxy {
-
-  $listeners = hiera_array('profile::services::haproxy::listeners', undef)
 
   class { '::haproxy':
     merge_options    => true,
@@ -21,11 +19,5 @@ class profile::services::haproxy {
         'client 6s',
       ],
     },
-  }
-
-  if ( $listeners ) {
-    $listeners.each |$listener|  {
-      include "::profile::services::haproxy::${listener}"
-    }
   }
 }
