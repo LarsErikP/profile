@@ -14,9 +14,9 @@ class profile::services::haproxy {
         'http-server-close',
       ],
       'timeout' => [
-        'connect 3s',
-        'server 6s',
-        'client 6s',
+        'connect 5s',
+        'server 50s',
+        'client 50s',
       ],
     },
   }
