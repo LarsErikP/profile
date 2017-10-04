@@ -2,5 +2,5 @@
 
 class profile::sensu::balancer {
   contain ::profile::sensu::haproxy
-  include ::profile::services::keepalived::haproxy::management
+  require ::profile::services::keepalived::haproxy::management
 }
