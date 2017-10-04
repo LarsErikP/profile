@@ -1,12 +1,15 @@
 # Keepalived config for management haproxy servers
 
-require ::profile::services::keepalived
+class profile::services::keepalived::haproxy::management {
 
-$ip = hiera('profile::haproxy::management::ip')
-$vrrp_id = hiera('profile::haproxy::management::vrrp::id')
-$vrrp_priority = hiera('profile::haproxy::management::vrrp:priority')
-$vrrp_password = hiera('profile::keepalived::vrrp_password')
+  require ::profile::services::keepalived
 
-notice('Hello from profile::services::keepalived::haproxy::management')
+  $ip = hiera('profile::haproxy::management::ip')
+  $vrrp_id = hiera('profile::haproxy::management::vrrp::id')
+  $vrrp_priority = hiera('profile::haproxy::management::vrrp:priority')
+  $vrrp_password = hiera('profile::keepalived::vrrp_password')
 
-# TODO: Complete this
+  notice('Hello from profile::services::keepalived::haproxy::management')
+
+  # TODO: Complete this
+}
