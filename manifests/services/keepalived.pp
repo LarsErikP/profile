@@ -16,7 +16,7 @@ class profile::services::keepalived {
 
   firewall { '020 accept vrrp':
     proto       => 'vrrp',
-    destination => '224.0.0.0/8',
+    destination => '224.0.0.18',
     action      => 'accept',
   }
 }
