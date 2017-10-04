@@ -1,6 +1,6 @@
 # Haproxy config for uchiwa
 
-class profile::services::haproxy::redis {
+class profile::services::redis::haproxy {
 
   haproxy::listen { 'redis':
     ipaddress => '*',
