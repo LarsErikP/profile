@@ -9,7 +9,10 @@ class profile::services::redis::haproxy {
     ports     => '6379',
     mode      => 'tcp',
     options   => {
-      'option'    => 'tcp-check',
+      'option'    => [
+        'tcp-check',
+        'tcplog',
+      ],
       'tcp-check' => [
         'connect',
         'send PING\r\n',
