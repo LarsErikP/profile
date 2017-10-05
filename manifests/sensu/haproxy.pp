@@ -9,7 +9,7 @@ class profile::sensu::haproxy {
       'log'     => 'global',
       'mode'    => 'http',
       'timeout' => [
-        'connect 5s'.
+        'connect 5s',
         'server 50s',
         'client 50s',
       ],
