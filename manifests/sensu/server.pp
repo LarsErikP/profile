@@ -20,16 +20,17 @@ class profile::sensu::server {
   }
 
   class { '::sensu':
-    rabbitmq_host               => $rabbithost,
-    rabbitmq_password           => $sensurabbitpass,
-    rabbitmq_reconnect_on_error => true,
-    redis_host                  => $redishost,
-    server                      => true,
-    api                         => true,
-    use_embedded_ruby           => true,
-    sensu_plugin_provider       => 'sensu_gem',
-    subscriptions               => $subscriptions,
-    purge                       => true,
+    rabbitmq_host                => $rabbithost,
+    rabbitmq_password            => $sensurabbitpass,
+    transport_reconnect_on_error => true,
+    redis_host                   => $redishost,
+    redis_reconnect_on_error     => true,
+    server                       => true,
+    api                          => true,
+    use_embedded_ruby            => true,
+    sensu_plugin_provider        => 'sensu_gem',
+    subscriptions                => $subscriptions,
+    purge                        => true,
   }
 
   sensu::handler { 'default':
