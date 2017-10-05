@@ -23,9 +23,10 @@ class profile::services::redis::haproxy {
   }
 
   haproxy::frontend { 'ft_redis':
-    bind     => '*:6379',
-    defaults => 'redis',
-    options  => {
+    ipaddress => '*',
+    ports     => '6379',
+    defaults  => 'redis',
+    options   => {
       'default_backend' => 'bk_redis',
     },
   }
