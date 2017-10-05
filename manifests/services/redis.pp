@@ -41,7 +41,7 @@ class profile::services::redis {
   }
 
   @@haproxy::balancermember { $::fqdn:
-    listening_service => 'redis',
+    listening_service => 'bk_redis',
     ports             => '6379',
     ipaddresses       => $ip,
     server_names      => $::hostname,
