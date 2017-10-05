@@ -41,12 +41,13 @@ class profile::services::redis {
   }
 
   @@haproxy::balancermember { $::fqdn:
+    defaults          => 'redis'
     listening_service => 'bk_redis',
     ports             => '6379',
     ipaddresses       => $ip,
     server_names      => $::hostname,
     options           => [
-      'check inter 1s',
+      'backup check inter 1s',
     ],
   }
 
