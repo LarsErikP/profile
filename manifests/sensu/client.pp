@@ -20,18 +20,19 @@ class profile::sensu::client {
   }
 
   class { '::sensu':
-    rabbitmq_host         => $rabbithost,
-    rabbitmq_password     => $sensurabbitpass,
-    rabbitmq_cluster      => undef,
-    redis_host            => $redishost,
-    server                => false,
-    api                   => false,
-    client                => true,
-    client_address        => $client_ip,
-    sensu_plugin_provider => 'sensu_gem',
-    use_embedded_ruby     => true,
-    subscriptions         => $subscriptions,
-    purge                 => true,
+    rabbitmq_host               => $rabbithost,
+    rabbitmq_password           => $sensurabbitpass,
+    rabbitmq_reconnect_on_error => true,
+    redis_host                  => $redishost,
+    redis_reconnect_on_error    => true,
+    server                      => false,
+    api                         => false,
+    client                      => true,
+    client_address              => $client_ip,
+    sensu_plugin_provider       => 'sensu_gem',
+    use_embedded_ruby           => true,
+    subscriptions               => $subscriptions,
+    purge                       => true,
   }
 
   include ::profile::sensu::plugins
