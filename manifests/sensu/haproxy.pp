@@ -16,6 +16,8 @@ class profile::sensu::haproxy {
       'option'  => [
         'forwardfor',
         'http-server-close',
+        'httplog',
+        'redispatch',
       ],
     },
   }
