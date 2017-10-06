@@ -17,6 +17,20 @@ class profile::services::haproxy {
     },
   }
 
+  haproxy::listen { 'stats':
+    ipaddress => '*',
+    ports     => '9000',
+    options   => {
+      'mode'  => 'http',
+      'stats' => [
+        'hide-version',
+        'refresh 30s',
+        'show-node',
+        'uri /',
+      ],
+    },
+  }
+
   firewall { '060 accept haproxy stats':
     proto  => 'tcp',
     dport  => 9000,
