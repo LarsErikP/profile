@@ -40,4 +40,15 @@ class profile::sensu::haproxy {
       'cookie'  => 'SERVERID insert indirect nocache',
     },
   }
+
+  firewall { '040 accept http':
+    proto  => 'tcp',
+    dport  => 80,
+    action => 'accept',
+  }
+  firewall { '041 accept https':
+    proto  => 'tcp',
+    dport  => 443,
+    action => 'accept',
+  }
 }

@@ -48,4 +48,11 @@ class profile::services::redis::haproxy {
       ],
     },
   }
+
+  firewall { '050 accept redis-server':
+    proto  => 'tcp',
+    dport  => 6379,
+    action => 'accept',
+  }
+
 }

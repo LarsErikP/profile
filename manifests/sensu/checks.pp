@@ -85,4 +85,6 @@ class profile::sensu::checks {
     standalone  => false,
     subscribers => [ 'rabbitmq' ],
   }
+
+  Sensu::Check <<| tag == 'sensu-check' |>>
 }
