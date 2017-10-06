@@ -12,11 +12,13 @@ class profile::sensu::haproxy {
         'connect 5s',
         'server 50s',
         'client 50s',
+        'http-request 10s',
       ],
       'option'  => [
         'forwardfor',
         'http-server-close',
         'httplog',
+        'log-health-checks',
         'redispatch',
       ],
     },

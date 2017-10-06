@@ -36,7 +36,6 @@ class profile::services::redis::haproxy {
     options  => {
       'option'    => [
         'tcp-check',
-        'tcplog',
       ],
       'tcp-check' => [
         'connect',
