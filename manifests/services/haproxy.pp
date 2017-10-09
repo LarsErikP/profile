@@ -4,8 +4,6 @@ class profile::services::haproxy {
 
   require ::firewall
 
-  $installSensu = hiera('profile::sensu::install')
-
   class { '::haproxy':
     merge_options  => true,
     global_options => {
@@ -35,15 +33,5 @@ class profile::services::haproxy {
     proto  => 'tcp',
     dport  => 9000,
     action => 'accept',
-  }
-
-  if ( $installSensu ) {
-    @@sensu::check { 'haproxy-stats':
-      command     => 'check-haproxy.rb -S localhost -q / -P 9000 -A',
-      interval    => 300,
-      standalone  => false,
-      subscribers => [ 'haproxy-servers' ],
-      tag         => 'sensu-check',
-    }
   }
 }

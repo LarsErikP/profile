@@ -86,5 +86,11 @@ class profile::sensu::checks {
     subscribers => [ 'rabbitmq' ],
   }
 
-  Sensu::Check <<| tag == 'sensu-check' |>>
+  # HAProxy checks
+  sensu::check { 'haproxy-stats':
+    command     => 'check-haproxy.rb -S localhost -q / -P 9000 -A',
+    interval    => 300,
+    standalone  => false,
+    subscribers => [ 'haproxy-servers' ],
+  }                                   }
 }
