@@ -20,8 +20,8 @@ class profile::services::haproxy {
 
   haproxy::listen { 'stats':
     bind    => {
-      "${ip}:9000",
-      '127.0.0.1:9000',
+      "${ip}:9000"     => [],
+      '127.0.0.1:9000' => [],
     },
     options => {
       'mode'  => 'http',
