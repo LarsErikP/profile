@@ -92,5 +92,5 @@ class profile::sensu::checks {
     interval    => 300,
     standalone  => false,
     subscribers => [ 'haproxy-servers' ],
-  }                                   }
+  }
 }
