@@ -10,10 +10,6 @@ class profile::services::keepalived::haproxy::management {
   $vrrp_password = hiera('profile::keepalived::vrrp_password')
   $management_if = hiera('profile::interfaces::management')
 
-  notice('Hello from profile::services::keepalived::haproxy::management')
-
-  # TODO: Complete this
-
   keepalived::vrrp::script { 'check_haproxy':
     script => '/usr/bin/killall -0 haproxy',
   }
