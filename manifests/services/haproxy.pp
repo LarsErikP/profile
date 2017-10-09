@@ -4,6 +4,9 @@ class profile::services::haproxy {
 
   require ::firewall
 
+  $nic = hiera('profile::interfaces::management')
+  $ip = $facts['networking']['interfaces'][$nic]['ip']
+
   class { '::haproxy':
     merge_options  => true,
     global_options => {
@@ -16,7 +19,7 @@ class profile::services::haproxy {
   }
 
   haproxy::listen { 'stats':
-    ipaddress => '*',
+    ipaddress => $ip,
     ports     => '9000',
     options   => {
       'mode'  => 'http',
