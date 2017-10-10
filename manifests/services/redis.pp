@@ -6,18 +6,16 @@ class profile::services::redis {
 
   $nodetype = hiera('profile::redis::nodetype')
   $nic = hiera('profile::interfaces::management')
-  $ip = $facts['networking']['interfaces'][$nic]['ip']
+  $ip = getvar("::ipaddress_${nic}")
+  # The line below is not compatible with puppet 3:
+  #$ip = $::facts['networking']['interfaces'][$nic]['ip']
   $redismaster = hiera('profile::redis::master')
 
   if ( $nodetype == 'slave' ) {
     $slaveof = "${redismaster} 6379"
-    $masterauth = $redispass
-    $requirepass = undef
   }
   elsif ( $nodetype == 'master') {
     $slaveof = undef
-    $masterauth = undef
-    $requirepass = $redispass
   }
   else {
     fail('Wrong redis node type. Only master or slave are valid')
