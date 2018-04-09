@@ -25,7 +25,7 @@ class profile::sensu::server {
     rabbitmq_password           => $sensurabbitpass,
     transport_reconnect_on_error => true,
     redis_host                  => $redishost,
-    reids_passowrd              => $redismasterauth,
+    redis_passowrd              => $redismasterauth,
     redis_reconnect_on_error    => true,
     server                      => true,
     api                         => true,
