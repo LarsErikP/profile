@@ -6,6 +6,7 @@ class profile::sensu::server {
   $subs_from_client_conf = hiera('sensu::subscriptions','')
 
   $redishost = hiera('profile::redis::ip')
+  $redismasterauth = hiera('profile::redis::masterauth')
 
   if ( $::is_virtual ) {
     $subs = [ 'all' ]
@@ -24,6 +25,7 @@ class profile::sensu::server {
     rabbitmq_password           => $sensurabbitpass,
     rabbitmq_reconnect_on_error => true,
     redis_host                  => $redishost,
+    reids_passowrd              => $redismasterauth,
     redis_reconnect_on_error    => true,
     server                      => true,
     api                         => true,
