@@ -22,7 +22,7 @@ class profile::sensu::client {
   class { '::sensu':
     rabbitmq_host               => $rabbithost,
     rabbitmq_password           => $sensurabbitpass,
-    rabbitmq_reconnect_on_error => true,
+    transport_reconnect_on_error => true,
     redis_host                  => $redishost,
     redis_reconnect_on_error    => true,
     server                      => false,
