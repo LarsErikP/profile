@@ -5,6 +5,7 @@ class profile::baseconfig {
   include ::profile::baseconfig::packages
   include ::profile::baseconfig::unattendedupgrades
   include ::profile::baseconfig::ntp
+  include ::profile::baseconfig::puppet
   include ::profile::baseconfig::ssh
   include ::profile::baseconfig::users
   #  Firewall {
