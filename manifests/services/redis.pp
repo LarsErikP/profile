@@ -6,10 +6,11 @@ class profile::services::redis {
 
   $nodetype = hiera('profile::redis::nodetype')
   $nic = hiera('profile::interfaces::management')
-  $ip = getvar("::ipaddress_${nic}")
   # The line below is not compatible with puppet 3:
-  #$ip = $::facts['networking']['interfaces'][$nic]['ip']
+  $ip = $::facts['networking']['interfaces'][$nic]['ip']
   $redismaster = hiera('profile::redis::master')
+  $masterauth = hiera('profile::redis::masterauth')
+  $enable_haproxy = hiera('profile::redis::haproxy::enable', false)
 
   if ( $nodetype == 'slave' ) {
     $slaveof = "${redismaster} 6379"
@@ -21,13 +22,20 @@ class profile::services::redis {
     fail('Wrong redis node type. Only master or slave are valid')
   }
 
+  $extra_opts = {}
+  if ( $slaveof != undef ) {
+    $extra_opts = { 'min_slaves_to_write' => 1, }
+  }
+
   class { '::redis':
-    config_owner        => 'redis',
-    config_group        => 'redis',
-    manage_repo         => true,
-    bind                => "${ip} 127.0.0.1",
-    min_slaves_to_write => 1,
-    slaveof             => $slaveof,
+    config_owner => 'redis',
+    config_group => 'redis',
+    manage_repo  => true,
+    bind         => "${ip} 127.0.0.1",
+    slaveof      => $slaveof,
+    masterauth   => $masterauth,
+    requirepass  => $masterauth,
+    *            => $extra_opts,
   } ->
 
   class { '::redis::sentinel':
@@ -38,15 +46,17 @@ class profile::services::redis {
     sentinel_bind    => "${ip} 127.0.0.1",
   }
 
-  @@haproxy::balancermember { $::fqdn:
-    defaults          => 'redis',
-    listening_service => 'bk_redis',
-    ports             => '6379',
-    ipaddresses       => $ip,
-    server_names      => $::hostname,
-    options           => [
-      'backup check inter 1s',
-    ],
+  if ($enable_haproxy) {
+    @@haproxy::balancermember { $::fqdn:
+      defaults          => 'redis',
+      listening_service => 'bk_redis',
+      ports             => '6379',
+      ipaddresses       => $ip,
+      server_names      => $::hostname,
+      options           => [
+        'backup check inter 1s',
+      ],
+    }
   }
 
   firewall { '050 accept redis-server':
