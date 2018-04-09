@@ -42,9 +42,34 @@ class profile::sensu::server {
     purge                        => true,
   }
 
+  if ($mail_from) {
+    sensu::handler { 'mailer':
+      type    => 'pipe',
+      command => 'handler-mailer.rb',
+      config  => {
+        admin_gui    => $sensu_url,
+        mail_from    => $mail_from,
+        mail_to      => $mail_to,
+        smtp_address => $smtp_address,
+        smtp_port    => $smtp_port,
+        smtp_domain  => $smtp_domain,
+      },
+      filters => [ 'state-change-only' ],
+    }
+
+    sensu::plugin { 'sensu-plugins-mailer':
+      type => 'package'
+    }
+
+    $default_handlers = [ 'stdout', 'mailer' ]
+  } else {
+    $default_handlers = [ 'stdout' ]
+  }
+
+
   sensu::handler { 'default':
     type     => 'set',
-    handlers => [ 'stdout' ],
+    handlers => $default_handlers,
   }
 
   sensu::handler { 'stdout':
@@ -58,27 +83,6 @@ class profile::sensu::server {
       occurrences => "eval: value == 1 || ':::action:::' == 'resolve'",
     },
   }
-
-  if ($mail_from) {
-    sensu::handler { 'mailer':
-    type    => 'pipe',
-    command => 'handler-mailer.rb',
-    config  => {
-      admin_gui    => $sensu_url,
-      mail_from    => $mail_from,
-      mail_to      => $mail_to,
-      smtp_address => $smtp_address,
-      smtp_port    => $smtp_port,
-      smtp_domain  => $smtp_domain,
-    },
-    filters => [ 'state-change-only' ],
-  }
-
-    sensu::plugin { 'sensu-plugins-mailer':
-      type => 'package'
-    }
-  }
-
   include ::profile::sensu::checks
   include ::profile::sensu::plugins
   include ::profile::sensu::plugin::http
