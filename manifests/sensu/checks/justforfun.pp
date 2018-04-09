@@ -6,6 +6,6 @@ class profile::sensu::checks::justforfun {
     standalone          => false,
     subscribers         => [ 'flaptest' ],
     low_flap_threshold  => 20,
-    high_flap_threshold => 50,
+    high_flap_threshold => 30,
   }
 }
