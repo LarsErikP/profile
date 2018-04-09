@@ -8,12 +8,13 @@ class profile::sensu::uchiwa {
   $uchiwa_url = hiera('profile::sensu::uchiwa::fqdn')
 
   $management_if = hiera('profile::interfaces::management')
-  $management_ip = $facts['networking']['interfaces'][$management_if]['ip']
+  $management_ip = $::facts['networking']['interfaces'][$management_if]['ip']
 
   $private_key = hiera('profile::sensu::uchiwa::private_key')
   $public_key  = hiera('profile::sensu::uchiwa::public_key')
   $private_key_path = '/etc/sensu/keys/uchiwa.rsa'
   $public_key_path  = '/etc/sensu/keys/uchiwa.rsa.pub'
+  $enable_haproxy = hiera('profile::sensu::uchiwa::haproxy::enable', false)
 
   class { '::uchiwa':
     user                => 'sensu',
@@ -88,16 +89,18 @@ class profile::sensu::uchiwa {
     notify  => Service[$uchiwa::service_name],
   }
 
-  @@haproxy::balancermember { $::fqdn:
-    defaults          => 'uchiwa',
-    listening_service => 'bk_uchiwa',
-    ports             => '80',
-    ipaddresses       => $management_ip,
-    server_names      => $::hostname,
-    options           => [
-      'check inter 5s',
-      'cookie',
-    ],
+  if ($enable_haproxy) {
+    @@haproxy::balancermember { $::fqdn:
+      defaults          => 'uchiwa',
+      listening_service => 'bk_uchiwa',
+      ports             => '80',
+      ipaddresses       => $management_ip,
+      server_names      => $::hostname,
+      options           => [
+        'check inter 5s',
+        'cookie',
+      ],
+    }
   }
 
 }
