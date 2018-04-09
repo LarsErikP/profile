@@ -1,5 +1,6 @@
 # Sensu check definitions
 class profile::sensu::checks {
+  include ::profile::sensu::checks::justforfun
 
   # Base checks for all hosts
   sensu::check { 'diskspace':
