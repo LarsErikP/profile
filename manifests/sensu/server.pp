@@ -8,6 +8,13 @@ class profile::sensu::server {
   $redishost = hiera('profile::redis::ip')
   $redismasterauth = hiera('profile::redis::masterauth')
 
+  $sensu_url = hiera('profile::sensu::mailer::url',undef)
+  $mail_from = hiera('profile::sensu::mailer::mail_from',undef)
+  $mail_to = hiera('profile::sensu::mailer::mail_to',undef)
+  $smtp_address = hiera('profile::sensu::mailer::smtp_address',undef)
+  $smtp_port = hiera('profile::sensu::mailer::smtp_port',undef)
+  $smtp_domain = hiera('profile::sensu::mailer::smtp_domain',undef)
+
   if ( $::is_virtual ) {
     $subs = [ 'all' ]
   } else {
@@ -50,6 +57,26 @@ class profile::sensu::server {
     attributes => {
       occurrences => "eval: value == 1 || ':::action:::' == 'resolve'",
     },
+  }
+
+  if ($mail_from) {
+    sensu::handler { 'mailer':
+    type    => 'pipe',
+    command => 'handler-mailer.rb',
+    config  => {
+      admin_gui    => $sensu_url,
+      mail_from    => $mail_from,
+      mail_to      => $mail_to,
+      smtp_address => $smtp_address,
+      smtp_port    => $smtp_port,
+      smtp_domain  => $smtp_domain,
+    },
+    filters => [ 'state-change-only' ],
+  }
+
+    sensu::plugin { 'sensu-plugins-mailer':
+      type => 'package'
+    }
   }
 
   include ::profile::sensu::checks
