@@ -4,13 +4,16 @@ class profile::services::rabbitmq {
   $rabbituser = hiera('profile::rabbitmq::rabbituser')
   $rabbitpass = hiera('profile::rabbitmq::rabbitpass')
   $secret     = hiera('profile::rabbitmq::rabbitsecret')
-
+  $rabbitservers = hiera('profile::rabbitmq::servers')
 
   # Make sure keepalived is installed before rabbit.
   require ::profile::services::erlang
 
   class { '::rabbitmq':
     admin_enable             => false,
+    config_cluster           => true,
+    cluster_nodes            => $rabbitservers,
+    cluster_node_type        => 'ram',
     erlang_cookie            => $secret,
     wipe_db_on_cookie_change => true,
   }->
