@@ -46,29 +46,6 @@ class profile::services::rabbitmq {
     }
   }
 
-  # Configure rabbitmq to be alowed more than 1024 file descriptors using
-  # systemd.
-  file { '/etc/systemd/system/rabbitmq-server.service.d':
-    ensure => directory,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0755',
-  }
-  ini_setting { 'Rabbit files':
-    ensure  => present,
-    path    => '/etc/systemd/system/rabbitmq-server.service.d/limits.conf',
-    section => 'Service',
-    setting => 'LimitNOFILE',
-    value   => '16384',
-    notify  => Exec['rabbitmq-systemd-reload'],
-    require => File['/etc/systemd/system/rabbitmq-server.service.d'],
-  }
-  exec { 'rabbitmq-systemd-reload':
-    command     => '/bin/systemctl daemon-reload',
-    notify      => Service['rabbitmq-server'],
-    refreshonly => true,
-  }
-
   # Include rabbitmq configuration for sensu. And the plugin
   $installSensu = hiera('profile::sensu::install', true)
   if ($installSensu) {
