@@ -10,6 +10,7 @@ class profile::services::rabbitmq {
   require ::profile::services::erlang
 
   class { '::rabbitmq':
+    admin_enable             => false,
     erlang_cookie            => $secret,
     wipe_db_on_cookie_change => true,
   }->
