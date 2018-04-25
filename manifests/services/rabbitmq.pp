@@ -10,12 +10,13 @@ class profile::services::rabbitmq {
   require ::profile::services::erlang
 
   class { '::rabbitmq':
-    admin_enable             => false,
-    config_cluster           => true,
-    cluster_nodes            => $rabbitservers,
-    cluster_node_type        => 'ram',
-    erlang_cookie            => $secret,
-    wipe_db_on_cookie_change => true,
+    admin_enable               => false,
+    config_cluster             => true,
+    cluster_nodes              => $rabbitservers,
+    cluster_node_type          => 'ram',
+    cluster_partition_handling => 'pause_minority',
+    erlang_cookie              => $secret,
+    wipe_db_on_cookie_change   => true,
   }->
   rabbitmq_user { $rabbituser:
     admin    => true,
