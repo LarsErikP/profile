@@ -16,6 +16,7 @@ class profile::services::rabbitmq {
     cluster_node_type          => 'ram',
     cluster_partition_handling => $rabbitclustermode,
     erlang_cookie              => $secret,
+    repos_ensure               => true,
     wipe_db_on_cookie_change   => true,
   }->
   rabbitmq_user { $rabbituser:
