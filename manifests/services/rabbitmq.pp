@@ -13,7 +13,7 @@ class profile::services::rabbitmq {
     admin_enable               => false,
     config_cluster             => true,
     cluster_nodes              => $rabbitservers,
-    cluster_node_type          => 'ram',
+    cluster_node_type          => 'disc',
     cluster_partition_handling => $rabbitclustermode,
     erlang_cookie              => $secret,
     repos_ensure               => true,
