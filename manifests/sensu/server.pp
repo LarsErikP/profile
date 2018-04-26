@@ -1,9 +1,7 @@
 # Install and configure sensu-server and dashboard
 class profile::sensu::server {
 
-  $rabbithost = hiera('profile::rabbitmq::ip')
   $sensurabbitpass = hiera('profile::sensu::rabbit_password')
-
   $rabbithosts = hiera('profile::rabbitmq::servers')
 
   $subs_from_client_conf = hiera('sensu::subscriptions','')
@@ -43,8 +41,6 @@ class profile::sensu::server {
   }
 
   class { '::sensu':
-    #rabbitmq_host                => $rabbithost,
-    #rabbitmq_password            => $sensurabbitpass,
     rabbitmq_cluster             => $rabbit_cluster,
     transport_reconnect_on_error => true,
     redis_host                   => $redishost,
