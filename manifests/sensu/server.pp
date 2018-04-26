@@ -3,6 +3,9 @@ class profile::sensu::server {
 
   $rabbithost = hiera('profile::rabbitmq::ip')
   $sensurabbitpass = hiera('profile::sensu::rabbit_password')
+
+  $rabbithosts = hiera('profile::rabbitmq::servers')
+
   $subs_from_client_conf = hiera('sensu::subscriptions','')
 
   $redishost = hiera('profile::redis::ip')
@@ -27,9 +30,22 @@ class profile::sensu::server {
     $subscriptions = $subs
   }
 
+  $rabbit_cluster = $rabbithosts.map |$host| {
+    {
+      port      => 5672,
+      host      => $host,
+      user      => 'sensu',
+      password  => $sensurabbitpass,
+      vhost     => '/sensu',
+      heartbeat => 2,
+      prefetch  => 1,
+    }
+  }
+
   class { '::sensu':
-    rabbitmq_host                => $rabbithost,
-    rabbitmq_password            => $sensurabbitpass,
+    #rabbitmq_host                => $rabbithost,
+    #rabbitmq_password            => $sensurabbitpass,
+    rabbitmq_cluster             => $rabbit_cluster,
     transport_reconnect_on_error => true,
     redis_host                   => $redishost,
     redis_password               => $redismasterauth,
