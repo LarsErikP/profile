@@ -16,5 +16,11 @@ class profile::services::rabbitmq::sensu {
     write_permission     => '.*',
     read_permission      => '.*',
     provider             => 'rabbitmqctl',
-  }
+ } ->
+  rabbitmq_policy { 'ha-sensu@/sensu':
+    pattern    => '^(results$|keepalives$)',
+    definition => {
+      'ha-mode'      => 'all',
+      'ha-sync-mode' => 'automatic',
+  },
 }
