@@ -69,4 +69,10 @@ class profile::services::redis {
     dport  => 26379,
     action => 'accept',
   }
+
+  $installSensu = hiera('profile::sensu::install', true)
+  if ($installSensu) {
+
+    sensu::subscription {'roundrobin:redis': }
+  }
 }
